@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peluquería Familiar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="login-screen" class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <div class="form-group">
+            <label for="username">Usuario</label>
+            <input type="text" id="username" placeholder="Ingrese su usuario">
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" placeholder="Ingrese su contraseña">
+        </div>
+        <button class="btn" onclick="login()">Ingresar</button>
+    </div>
+    
+    <!-- Menú Principal -->
+    <div id="main-menu" class="container" style="display: none;">
+        <header>
+            <h1>Peluquería Familiar</h1>
+            <p>Bienvenido, <span id="user-name">Administrador</span></p>
+        </header>
+        
+        <div class="menu-container">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="showModule('employees')">
+                    <i class="fas fa-users"></i>
+                    <h3>Empleados</h3>
+                    <p>Gestión de personal</p>
+                </div>
+                <div class="menu-item" onclick="showModule('clients')">
+                    <i class="fas fa-user-tag"></i>
+                    <h3>Clientes</h3>
+                    <p>Registro de clientes</p>
+                </div>
+                <div class="menu-item" onclick="showModule('reservations')">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Reservas</h3>
+                    <p>Agendamiento de citas</p>
+                </div>
+                <div class="menu-item" onclick="showModule('billing')">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Facturación</h3>
+                    <p>Generación de facturas</p>
+                </div>
+                <div class="menu-item" onclick="showModule('reports')">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Informes</h3>
+                    <p>Reportes y estadísticas</p>
+                </div>
+                <div class="menu-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <h3>Salir</h3>
+                    <p>Cerrar sesión</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Módulo de Empleados -->
+    <div id="employees-module" class="container module-container">
+        <div class="module-header">
+            <h2><i class="fas fa-users"></i> Módulo de Empleados</h2>
+            <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Volver</button>
+        </div>
+        
+        <button class="add-btn" onclick="showEmployeeForm()"><i class="fas fa-plus"></i> Agregar Empleado</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Comisión</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1-1234-5678</td>
+                    <td>Juan Pérez</td>
+                    <td>8888-8888</td>
+                    <td>juan@peluqueria.com</td>
+                    <td>15%</td>
+                    <td>
+                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2-2345-6789</td>
+                    <td>María Rodríguez</td>
+                    <td>7777-7777</td>
+                    <td>maria@peluqueria.com</td>
+                    <td>15%</td>
+                    <td>
+                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3-3456-7890</td>
+                    <td>Carlos Gómez</td>
+                    <td>6666-6666</td>
+                    <td>carlos@peluqueria.com</td>
+                    <td>15%</td>
+                    <td>
+                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Formulario de Empleado (oculto inicialmente) -->
+        <div id="employee-form" class="form-container" style="display: none;">
+            <h3>Agregar/Editar Empleado</h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="emp-cedula">Cédula</label>
+                        <input type="text" id="emp-cedula" placeholder="Ej: 1-1234-5678">
+                    </div>
+                    <div class="form-group">
+                        <label for="emp-nombre">Nombre Completo</label>
+                        <input type="text" id="emp-nombre" placeholder="Nombre del empleado">
+                    </div>
+                    <div class="form-group">
+                        <label for="emp-direccion">Dirección</label>
+                        <input type="text" id="emp-direccion" placeholder="Dirección completa">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="emp-telefono">Teléfono</label>
+                        <input type="text" id="emp-telefono" placeholder="Ej: 8888-8888">
+                    </div>
+                    <div class="form-group">
+                        <label for="emp-correo">Correo Electrónico</label>
+                        <input type="email" id="emp-correo" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="emp-comision">Comisión (%)</label>
+                        <input type="number" id="emp-comision" placeholder="Ej: 15" min="0" max="100">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <button class="btn" style="margin-right: 10px;">Guardar</button>
+                <button class="btn" style="background-color: #9e9e9e;" onclick="hideEmployeeForm()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Módulo de Clientes -->
+    <div id="clients-module" class="container module-container">
+        <div class="module-header">
+            <h2><i class="fas fa-user-tag"></i> Módulo de Clientes</h2>
+            <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Volver</button>
+        </div>
+        
+        <button class="add-btn" onclick="showClientForm()"><i class="fas fa-plus"></i> Agregar Cliente</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1-1111-1111</td>
+                    <td>Ana Martínez</td>
+                    <td>2222-2222</td>
+                    <td>ana@cliente.com</td>
+                    <td>
+                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2-2222-2222</td>
+                    <td>Luis González</td>
+                    <td>3333-3333</td>
+                    <td>luis@cliente.com</td>
+                    <td>
+                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Formulario de Cliente (oculto inicialmente) -->
+        <div id="client-form" class="form-container" style="display: none;">
+            <h3>Agregar/Editar Cliente</h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="cli-cedula">Cédula</label>
+                        <input type="text" id="cli-cedula" placeholder="Ej: 1-1234-5678">
+                    </div>
+                    <div class="form-group">
+                        <label for="cli-nombre">Nombre Completo</label>
+                        <input type="text" id="cli-nombre" placeholder="Nombre del cliente">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="cli-direccion">Dirección</label>
+                        <input type="text" id="cli-direccion" placeholder="Dirección completa">
+                    </div>
+                    <div class="form-group">
+                        <label for="cli-telefono">Teléfono</label>
+                        <input type="text" id="cli-telefono" placeholder="Ej: 8888-8888">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="cli-correo">Correo Electrónico</label>
+                        <input type="email" id="cli-correo" placeholder="correo@ejemplo.com">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <button class="btn" style="margin-right: 10px;">Guardar</button>
+                <button class="btn" style="background-color: #9e9e9e;" onclick="hideClientForm()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Módulo de Reservas -->
+    <div id="reservations-module" class="container module-container">
+        <div class="module-header">
+            <h2><i class="fas fa-calendar-check"></i> Módulo de Reservas</h2>
+            <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Volver</button>
+        </div>
+        
+        <div class="form-container reservation-form">
+            <h3>Nueva Reservación</h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="res-cliente">Cliente</label>
+                        <select id="res-cliente" class="form-control">
+                            <option value="">Seleccione un cliente</option>
+                            <option value="1">Ana Martínez (1-1111-1111)</option>
+                            <option value="2">Luis González (2-2222-2222)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="res-empleado">Peluquero</label>
+                        <select id="res-empleado" class="form-control">
+                            <option value="">Seleccione un peluquero</option>
+                            <option value="1">Juan Pérez</option>
+                            <option value="2">María Rodríguez</option>
+                            <option value="3">Carlos Gómez</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="res-fecha">Fecha</label>
+                        <input type="date" id="res-fecha">
+                    </div>
+                    <div class="form-group">
+                        <label>Horario Disponible</label>
+                        <div class="time-slots">
+                            <div class="time-slot">8:00 AM</div>
+                            <div class="time-slot">8:30 AM</div>
+                            <div class="time-slot">9:00 AM</div>
+                            <div class="time-slot">9:30 AM</div>
+                            <div class="time-slot">10:00 AM</div>
+                            <div class="time-slot">10:30 AM</div>
+                            <div class="time-slot">11:00 AM</div>
+                            <div class="time-slot">11:30 AM</div>
+                            <div class="time-slot">1:00 PM</div>
+                            <div class="time-slot">1:30 PM</div>
+                            <div class="time-slot">2:00 PM</div>
+                            <div class="time-slot">2:30 PM</div>
+                            <div class="time-slot">3:00 PM</div>
+                            <div class="time-slot">3:30 PM</div>
+                            <div class="time-slot">4:00 PM</div>
+                            <div class="time-slot unavailable">4:30 PM</div>
+                            <div class="time-slot">5:00 PM</div>
+                            <div class="time-slot unavailable">5:30 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h4 style="margin-top: 20px;">Personas a atender</h4>
+            <div id="personas-container">
+                <div class="person-item">
+                    <div class="person-header">
+                        <h5>Persona #1</h5>
+                        <button class="remove-person"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="persona1-nombre">Nombre</label>
+                                <input type="text" id="persona1-nombre" placeholder="Nombre completo">
+                            </div>
+                            <div class="form-group">
+                                <label for="persona1-tipo">Tipo de Corte</label>
+                                <select id="persona1-tipo">
+                                    <option value="hombre">Caballero (30 min)</option>
+                                    <option value="mujer">Dama (1 hora)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="persona1-edad">Condición</label>
+                                <select id="persona1-edad">
+                                    <option value="adulto">Adulto (Precio completo)</option>
+                                    <option value="niño">Niño (50% descuento)</option>
+                                    <option value="mayor">Adulto mayor (50% descuento)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn" style="margin-top: 15px; background-color: #2196f3;" onclick="addPerson()">
+                <i class="fas fa-plus"></i> Agregar Persona
+            </button>
+            
+            <div class="form-row" style="margin-top: 30px;">
+                <button class="btn" style="margin-right: 10px;">Guardar Reservación</button>
+                <button class="btn" style="background-color: #9e9e9e;">Cancelar</button>
+            </div>
+        </div>
+        
+        <h3 style="margin-top: 30px;">Reservaciones Existentes</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>N° Reserva</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Peluquero</th>
+                    <th>Personas</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>RES-001</td>
+                    <td>Ana Martínez</td>
+                    <td>15/06/2023</td>
+                    <td>9:00 AM</td>
+                    <td>Juan Pérez</td>
+                    <td>2</td>
+                    <td>
+                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn" style="background-color: #6a1b9a; color: white;"><i class="fas fa-file-invoice"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>RES-002</td>
+                    <td>Luis González</td>
+                    <td>16/06/2023</td>
+                    <td>2:00 PM</td>
+                    <td>María Rodríguez</td>
+                    <td>1</td>
+                    <td>
+                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn" style="background-color: #6a1b9a; color: white;"><i class="fas fa-file-invoice"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Módulo de Facturación -->
+    <div id="billing-module" class="container module-container">
+        <div class="module-header">
+            <h2><i class="fas fa-file-invoice-dollar"></i> Módulo de Facturación</h2>
+            <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Volver</button>
+        </div>
+        
+        <div class="form-container">
+            <h3>Generar Factura</h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="fact-cliente">Cliente</label>
+                        <select id="fact-cliente" class="form-control">
+                            <option value="">Seleccione un cliente</option>
+                            <option value="1">Ana Martínez (1-1111-1111)</option>
+                            <option value="2">Luis González (2-2222-2222)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="fact-reserva">N° de Reservación</label>
+                        <select id="fact-reserva" class="form-control">
+                            <option value="">Seleccione una reservación</option>
+                            <option value="1">RES-001 (Ana Martínez - 15/06/2023)</option>
+                            <option value="2">RES-002 (Luis González - 16/06/2023)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" style="margin-top: 15px;" onclick="generateInvoice()">Generar Factura</button>
+        </div>
+        
+        <!-- Factura generada (oculta inicialmente) -->
+        <div id="invoice-preview" class="invoice" style="display: none; margin-top: 30px;">
+            <div class="invoice-header">
+                <h2>Peluquería Familiar</h2>
+                <p>Horario: 8:00 AM - 6:00 PM</p>
+                <p>Teléfono: 2222-2222</p>
+                <h3>FACTURA #FAC-001</h3>
+            </div>
+            
+            <div class="invoice-details">
+                <div>
+                    <p><strong>Fecha:</strong> 15/06/2023</p>
+                    <p><strong>Cliente:</strong> Ana Martínez</p>
+                    <p><strong>Cédula:</strong> 1-1111-1111</p>
+                </div>
+                <div>
+                    <p><strong>Reservación:</strong> RES-001</p>
+                    <p><strong>Fecha Reserva:</strong> 15/06/2023</p>
+                    <p><strong>Hora:</strong> 9:00 AM</p>
+                    <p><strong>Peluquero:</strong> Juan Pérez</p>
+                </div>
+            </div>
+            
+            <table class="invoice-items">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Descripción</th>
+                        <th>Condición</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Corte de Dama</td>
+                        <td>Adulto</td>
+                        <td>₡10,000</td>
+                        <td>₡10,000</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Corte de Caballero</td>
+                        <td>Niño</td>
+                        <td>₡5,000</td>
+                        <td>₡5,000</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="invoice-total">
+                <p><strong>Total: ₡15,000</strong></p>
+                <p>Comisión peluquero (15%): ₡2,250</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" style="margin-right: 10px;"><i class="fas fa-print"></i> Imprimir</button>
+                <button class="btn" style="background-color: #4caf50;"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Módulo de Informes -->
+    <div id="reports-module" class="container module-container">
+        <div class="module-header">
+            <h2><i class="fas fa-chart-bar"></i> Módulo de Informes</h2>
+            <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Volver</button>
+        </div>
+        
+        <div class="form-container">
+            <h3>Generar Informes</h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="report-fecha">Fecha</label>
+                        <input type="date" id="report-fecha">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="report-type">Tipo de Informe</label>
+                        <select id="report-type" class="form-control">
+                            <option value="atendidos">Personas atendidas</option>
+                            <option value="ingresos">Ingresos generados</option>
+                            <option value="horarios">Afluencia por horario</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" style="margin-top: 15px;" onclick="generateReport()">Generar Informe</button>
+        </div>
+        
+        <!-- Informes generados -->
+        <div id="report-results" style="margin-top: 30px;">
+            <div class="report-card">
+                <h3 class="report-title">Personas Atendidas - 15/06/2023</h3>
+                <p>Total de personas atendidas: <strong>8</strong></p>
+                
+                <h4 style="margin-top: 15px;">Por Peluquero</h4>
+                <ul>
+                    <li>Juan Pérez: 3 personas</li>
+                    <li>María Rodríguez: 3 personas</li>
+                    <li>Carlos Gómez: 2 personas</li>
+                </ul>
+                
+                <h4 style="margin-top: 15px;">Por Condición</h4>
+                <div class="chart-container">
+                    [Gráfico de personas por condición]
+                </div>
+            </div>
+            
+            <div class="report-card">
+                <h3 class="report-title">Ingresos Generados - 15/06/2023</h3>
+                <p>Total ingresos: <strong>₡65,000</strong></p>
+                
+                <h4 style="margin-top: 15px;">Por Tipo de Cliente</h4>
+                <ul>
+                    <li>Adultos: ₡40,000 (61.5%)</li>
+                    <li>Niños: ₡15,000 (23.1%)</li>
+                    <li>Adultos mayores: ₡10,000 (15.4%)</li>
+                </ul>
+                
+                <h4 style="margin-top: 15px;">Comisiones</h4>
+                <ul>
+                    <li>Juan Pérez: ₡3,000</li>
+                    <li>María Rodríguez: ₡4,500</li>
+                    <li>Carlos Gómez: ₡2,250</li>
+                </ul>
+            </div>
+            
+            <div class="report-card">
+                <h3 class="report-title">Afluencia por Horario - 15/06/2023</h3>
+                
+                <h4>Horario con mayor afluencia</h4>
+                <p>10:00 AM - 11:00 AM: <strong>6 personas</strong></p>
+                
+                <h4 style="margin-top: 15px;">Horario con menor afluencia</h4>
+                <p>8:00 AM - 9:00 AM: <strong>1 persona</strong></p>
+                
+                <div class="chart-container" style="margin-top: 15px;">
+                    [Gráfico de afluencia por horario]
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
